@@ -6,15 +6,19 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Outfit', 'system-ui', 'sans-serif'],
+            },
             colors: {
+                /* Moonhem palette: dark neutrals + gold/amber (see index.css :root) */
                 green: {
-                    900: '#0f3d3c',
-                    700: '#1e605b',
-                    500: '#2c8b82',
+                    900: '#262626',
+                    700: '#383838',
+                    500: '#fab23d',
                 },
-                gold: '#d7b46d',
-                cream: '#f6f5f1',
-                muted: '#61726f',
+                gold: '#ffc812',
+                cream: '#fafafa',
+                muted: '#5c5c5c',
             },
         },
     },

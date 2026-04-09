@@ -8,9 +8,24 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
 dist
 dist-ssr
 *.local
+
+# Secrets and local env (keep `.env.example` templates in git)
+.env
+web/.env
 
 # Editor directories and files
 .vscode/*

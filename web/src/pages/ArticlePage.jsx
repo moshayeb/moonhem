@@ -1,9 +1,12 @@
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { ContentCard, PageHero, PageMain } from "../ui/PageChrome.jsx";
+import { useDocumentTitle } from "../useDocumentTitle.js";
+
 const ARTICLES = {
     buy: {
         title: "Buy a home: 5 steps",
         subtitle: "A clear path from first viewing to signed contract.",
-        hero:
-            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80",
+        hero: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80",
         sections: [
             {
                 heading: "1) Set your search",
@@ -45,8 +48,7 @@ const ARTICLES = {
     sell: {
         title: "Sell faster",
         subtitle: "Raise impact with better visuals, copy, and timing.",
-        hero:
-            "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
+        hero: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
         sections: [
             {
                 heading: "Prep and styling",
@@ -81,8 +83,7 @@ const ARTICLES = {
     finance: {
         title: "Financing",
         subtitle: "Understand rate, amortization, and down payment basics.",
-        hero:
-            "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1600&q=80",
+        hero: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1600&q=80",
         sections: [
             {
                 heading: "Down payment",
@@ -116,41 +117,54 @@ const ARTICLES = {
     },
 };
 
-export default function ArticlePage({ slug = "buy", onBack }) {
+export default function ArticlePage() {
+    const { slug } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
     const article = ARTICLES[slug] || ARTICLES.buy;
+    useDocumentTitle(`${article.title} · Moonhem`);
+
+    const onBack = () => {
+        if (location.state?.from === "guide") {
+            navigate("/guide");
+        } else {
+            navigate("/");
+        }
+    };
+
+    const backLabel = location.state?.from === "guide" ? "Back to buyer guide" : "Back to home";
 
     return (
-        <div className="mh-page">
-            <div
-                className="mh-hero hero-large"
-                style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(15,61,60,0.65) 0%, rgba(15,61,60,0.82) 100%), url('${article.hero}')`,
-                }}
-            >
-                <div className="mh-heroContent">
-                    <p className="mh-eyebrow">Guide</p>
-                    <h1>{article.title}</h1>
-                    <p className="mh-muted">{article.subtitle}</p>
-                    {onBack && (
-                        <button className="mh-btn" type="button" onClick={onBack} style={{ marginTop: 12 }}>
-                            Back to listings
-                        </button>
-                    )}
-                </div>
+        <div className="min-h-screen bg-gray-50">
+            <PageHero
+                eyebrow="Guide"
+                title={article.title}
+                subtitle={article.subtitle}
+                imageUrl={article.hero}
+                minHeightClass="min-h-[280px] md:min-h-[340px]"
+            />
+            <div className="mx-auto max-w-7xl px-6 pb-4 pt-6">
+                <button
+                    type="button"
+                    className="rounded-2xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-800 shadow-sm transition hover:border-yellow-500"
+                    onClick={onBack}
+                >
+                    {backLabel}
+                </button>
             </div>
 
-            <div className="mh-detailBody" style={{ gridTemplateColumns: "1fr" }}>
+            <PageMain className="flex flex-col gap-8 pt-0">
                 {article.sections.map((sec) => (
-                    <div key={sec.heading} className="mh-detailSection">
-                        <h3 style={{ marginTop: 0 }}>{sec.heading}</h3>
-                        <ul style={{ paddingLeft: 18, margin: "8px 0", color: "var(--muted)", lineHeight: 1.5 }}>
+                    <ContentCard key={sec.heading}>
+                        <h2 className="mb-4 text-xl font-semibold text-gray-900">{sec.heading}</h2>
+                        <ul className="list-disc space-y-2 pl-5 text-gray-600">
                             {sec.bullets.map((b) => (
                                 <li key={b}>{b}</li>
                             ))}
                         </ul>
-                    </div>
+                    </ContentCard>
                 ))}
-            </div>
+            </PageMain>
         </div>
     );
 }

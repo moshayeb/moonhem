@@ -24,21 +24,24 @@ export default function Guides({ onOpenArticle }) {
     ];
 
     return (
-        <div className="mh-articleGrid">
+        <div className="grid gap-8 md:grid-cols-3">
             {cards.map((a) => (
                 <button
                     key={a.title}
-                    className="mh-articleCard"
                     type="button"
+                    className="group overflow-hidden rounded-3xl border border-gray-100 bg-white text-left transition-all duration-300 hover:border-gray-200 hover:shadow-lg"
                     onClick={() => onOpenArticle && onOpenArticle(a.slug)}
                 >
-                    <div className="mh-articleImage" style={{ backgroundImage: `url(${a.image})` }} />
-                    <div className="mh-articleBody">
-                        <div className="mh-muted" style={{ fontSize: 12, textTransform: "uppercase" }}>
-                            {a.category}
-                        </div>
-                        <div className="mh-articleTitle">{a.title}</div>
-                        <div className="mh-articleText">{a.text}</div>
+                    <div
+                        className="h-56 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.02]"
+                        style={{ backgroundImage: `url(${a.image})` }}
+                    />
+                    <div className="p-7">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">{a.category}</p>
+                        <h3 className="mt-2 text-xl font-semibold text-gray-900 transition-colors group-hover:text-yellow-600">
+                            {a.title}
+                        </h3>
+                        <p className="mt-3 text-[15px] leading-relaxed text-gray-600">{a.text}</p>
                     </div>
                 </button>
             ))}
